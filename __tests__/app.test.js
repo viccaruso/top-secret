@@ -18,7 +18,7 @@ describe('top-secret routes', () => {
     password: 'pa$$word'
   };
 
-  it('Creates a new user', async () => {
+  it('Should create a new user in users table', async () => {
     const res = await request(app).post('/api/v1/users').send(dummyUser);
 
     expect(res.body).toEqual({ id: expect.any(String), email: 'dummy@defense.gov' });
