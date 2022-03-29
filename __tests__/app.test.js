@@ -11,4 +11,17 @@ describe('top-secret routes', () => {
   afterAll(() => {
     pool.end();
   });
+
+  // Create a dummy user for testing
+  const dummyUser = {
+    email: 'dummy@defense.gov',
+    password: 'pa$$word'
+  };
+
+  it('Creates a new user', async () => {
+    const res = await request(app).post('/api/v1/users').send(dummyUser);
+
+    expect(res.body).toEqual({ id: expect.any(String), email: 'dummy@defense.gov' });
+  });
+
 });
