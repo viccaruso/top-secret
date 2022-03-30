@@ -52,7 +52,7 @@ describe('top-secret routes', () => {
     // Try to get secrets from /api/v1/secrets while user is not logged in
     let res = await request(app).get('/api/v1/secrets');
     expect(res.body).toEqual({
-      status: '401',
+      status: 401,
       message: 'You need to be logged in to access these secrets.'
     });
 
