@@ -88,4 +88,13 @@ describe('top-secret routes', () => {
     ]);
 
   });
+
+  it('Should return an error if a user tries to create a secret when they are not logged in.', async () => {
+    // Try to post a secret to /api/v1/secrets while user is not logged in
+    const res = await request(app).post('/api/v1/secrets').send({ title: 'Answer to the Ultimate Question of Life, the Universe, and Everything', description: '42' });
+    expect(res.body).toEqual({
+      status: 401,
+      message: 'You need to be logged in to access these secrets.'
+    });
+  });
 });
