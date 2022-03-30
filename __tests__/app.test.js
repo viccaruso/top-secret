@@ -31,19 +31,18 @@ describe('top-secret routes', () => {
       message: 'Signed in successfully!',
       user
     });
+  });
 
-    it('Should log out a user that was signed in', async () => {
-      // Create user
-      await UserService.createUser(dummyUser);
-      // Sign the user in
-      await request(app).post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
-      // Sign the user out
-      const res = await request(app).delete('/api/v1/users/sessions');
-      // Check that response message says user logged out.
-      expect(res.body).toEqual({
-        message: 'You have logged out.'
-      });
+  it('Should log out a user that was signed in', async () => {
+    // Create user
+    await UserService.createUser(dummyUser);
+    // Sign the user in
+    await request(app).post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
+    // Sign the user out
+    const res = await request(app).delete('/api/v1/users/sessions');
+    // Check that response message confirms user logged out.
+    expect(res.body).toEqual({
+      message: 'You have logged out.'
     });
-
   });
 });
