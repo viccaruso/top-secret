@@ -62,11 +62,19 @@ describe('top-secret routes', () => {
     res = await request(app).get('/api/v1/secrets');
     expect(res.body).toEqual([
       {
-        title: 'Top Secret: Daniel Radcliffe / Elijah Wood ', description: 'It has been proven by top government officials that Daniel Radcliffe and Elijah Wood are indeed the same person.'
+        title: 'Top Secret: Daniel Radcliffe / Elijah Wood ',
+        description: 'It has been proven by top government officials that Daniel Radcliffe and Elijah Wood are indeed the same person.',
+        createdAt: expect.any(String)
       },
-      { title: 'Top Secret: Pop Secret', description: 'It is just regular popcorn and there is no secret to it.' },
       {
-        title: 'Top Secret: Konami Code', description: 'The missile launch code is: up, up, down, down, left, right, left, right, B, A, Start}'
+        title: 'Top Secret: Pop Secret',
+        description: 'It is just regular popcorn and there is no secret to it.',
+        createdAt: expect.any(String)
+      },
+      {
+        title: 'Top Secret: Konami Code',
+        description: 'The missile launch code is: up, up, down, down, left, right, left, right, B, A, Start}',
+        createdAt: expect.any(String)
       }
     ]);
   });
