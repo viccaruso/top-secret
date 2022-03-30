@@ -45,4 +45,29 @@ describe('top-secret routes', () => {
       message: 'You have logged out.'
     });
   });
+
+  it('Should return a list of secrets for logged in users only', async () => {
+    // Create user
+    await UserService.createUser(dummyUser);
+    // Try to get secrets from /api/v1/secrets while user is not logged in
+    let res = await request(app).get('/api/v1/secrets');
+    expect(res.body).toEqual({
+      status: '401',
+      message: 'You need to be logged in to access these secrets.'
+    });
+
+    // Now sign them in
+    await request(app).post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
+    // And try to get secrets again
+    res = await request(app).get('/api/v1/secrets');
+    expect(res.body).toEqual([
+      {
+        title: 'Top Secret: Daniel Radcliffe / Elijah Wood ', description: 'It has been proven by top government officials that Daniel Radcliffe and Elijah Wood are indeed the same person.'
+      },
+      { title: 'Top Secret: Pop Secret', description: 'It is just regular popcorn and there is no secret to it.' },
+      {
+        title: 'Top Secret: Konami Code', description: 'The missile launch code is: up, up, down, down, left, right, left, right, B, A, Start}'
+      }
+    ]);
+  });
 });
