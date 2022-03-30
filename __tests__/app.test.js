@@ -64,7 +64,7 @@ describe('top-secret routes', () => {
     await UserService.createUser(dummyUser);
 
     // Use the agent to sign in 
-    const login = await agent.post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
+    await agent.post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
 
     // And try to get secrets using the agent (that now has valid session cookie)
     const res = await agent.get('/api/v1/secrets');
@@ -89,12 +89,28 @@ describe('top-secret routes', () => {
 
   });
 
-  it('Should return an error if a user tries to create a secret when they are not logged in.', async () => {
+  it('Should return an error if a user tries to post a secret when they are not logged in.', async () => {
     // Try to post a secret to /api/v1/secrets while user is not logged in
     const res = await request(app).post('/api/v1/secrets').send({ title: 'Answer to the Ultimate Question of Life, the Universe, and Everything', description: '42' });
     expect(res.body).toEqual({
       status: 401,
       message: 'You need to be logged in to access these secrets.'
+    });
+  });
+
+  it('Should post a secret when user is logged in', async () => {
+    // Set up agent
+    const agent = request.agent(app);
+    // Create a user
+    await UserService.createUser(dummyUser);
+    // Sign the user in
+    await agent.post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
+    // And now try to post a secret using the agent (that is signed in)
+    const res = await agent.post('/api/v1/secrets').send({ title: 'Ultra Secret: Answer to the Ultimate Question of Life, the Universe, and Everything', description: '42' });
+    expect(res.body).toEqual({
+      id: expect.any(String),
+      createdAt: expect.any(String),
+      ...res.body
     });
   });
 });
