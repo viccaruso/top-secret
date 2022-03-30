@@ -64,8 +64,7 @@ describe('top-secret routes', () => {
     await UserService.createUser(dummyUser);
 
     // Use the agent to sign in 
-    await agent.post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
-    await request(app).post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
+    const login = await agent.post('/api/v1/users/sessions').send({ email: 'dummy@defense.gov', password: 'pa$$word' });
 
     // And try to get secrets using the agent (that now has valid session cookie)
     const res = await agent.get('/api/v1/secrets');
