@@ -16,3 +16,9 @@ CREATE TABLE secrets (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO
+  secrets (title, description)
+VALUES
+  ('Top Secret: Daniel Radcliffe / Elijah Wood ', 'It has been proven by top government officials that Daniel Radcliffe and Elijah Wood are indeed the same person.'),
+  ('Top Secret: Pop Secret', 'It is just regular popcorn and there is no secret to it.'),
+  ('Top Secret: Konami Code', 'The missile launch code is: up, up, down, down, left, right, left, right, B, A, Start');
